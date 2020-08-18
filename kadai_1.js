@@ -1,5 +1,4 @@
 const { breakStatement } = require('@babel/types');
-
 const MAX = 2; // キャッシュの最大サイズ
 const N = 128; // 入力の最大回数
 var disc; // putとgetとq(終了)の判別
@@ -36,7 +35,6 @@ function replaceArrayElements(array, targetId, sourceId) {
 
 // メイン処理
 (async function main() {
-    
     // メインループ
     while(1){
         disc = await readUserInput('put or get or q: ');
@@ -44,10 +42,9 @@ function replaceArrayElements(array, targetId, sourceId) {
         if(disc == "q"){
             break;
         }
-        data_name[i] = await readUserInput('data name: ');
-
         // put入力時の処理
-        if(disc == "put"){
+        else if(disc == "put"){
+            data_name[i] = await readUserInput('data name: ');
             data_main[i] = await readUserInput('data main: ');
             console.log(disc +" "+ data_name[i] +" "+ data_main[i]);
 
@@ -57,14 +54,13 @@ function replaceArrayElements(array, targetId, sourceId) {
                     if(data_name[i-1] !=data_name[i-2]){
                         console.log(data_name[i - MAX] + " => null");
                         data_name[i - MAX] = null;
-                    }
-                    
+                    }       
                 }
             }
-            
         }
         // get入力時の処理
         else if(disc == "get"){
+            data_name[i] = await readUserInput('data name: ');
             // 入力データ名がメモリにあるか判断
             for(var j = 0; j < i; j++){
                 if(data_name[i] == data_name[j]){
@@ -75,21 +71,16 @@ function replaceArrayElements(array, targetId, sourceId) {
                         sort_main = replaceArrayElements([data_main[i-2], data_main[i-1], data_main[i],], 0, 1);
                         data_name[i - 1] = sort_name[i - 1];    data_name[i - 2] = sort_name[i - 2];
                         data_main[i - 1] = sort_main[i - 1];    data_main[i - 2] = sort_main[i - 2];
-                        
                         i++;
                         continue;
-
-                        
-
                     }
                 }
-                
             }
+        }
+        else{
+            console.log("command not found");
+            continue;
         }
     i++;
     }
 })(); 
-
-
-
-
